@@ -76,7 +76,6 @@ def user_login(request):
         return render(request, 'rango/login.html')
 
 def index(request):
-    request.session.set_test_cookie()
     category_list = Category.objects.order_by('-likes')[:5]
     page_list = Page.objects.order_by('-views')[:5]
 
@@ -86,7 +85,6 @@ def index(request):
     context_dict['categories'] = category_list
 
     visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
     response = render(request, 'rango/index.html', context=context_dict)
     return response
 
@@ -147,15 +145,9 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 def about(request):
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-        request.session.delete_test_cookie()
-
     context_dict = {}
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-    print(request.method)
-    print(request.user)
     return render(request, 'rango/about.html', context=context_dict)
 
 @login_required
