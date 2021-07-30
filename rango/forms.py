@@ -28,7 +28,7 @@ class PageForm(forms.ModelForm):
         if url and not url.startswith('http://'):
             url = f'http://{url}'
             cleaned_data['url'] = url
-        return  cleaned_data
+        return cleaned_data
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
